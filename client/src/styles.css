@@ -1,0 +1,1682 @@
+/* ============================================================
+   THE HONORABLE AI JUDGE — gilded "old-world supreme court" theme
+   Cinematic photorealistic courtroom backdrop, parchment + gold
+   panels, oxblood case details, Cinzel + Cormorant Garamond serifs.
+   ============================================================ */
+
+:root {
+  /* --- Backdrop --- */
+  --backdrop: #1a120b;
+  --backdrop-near-black: #0e0904;
+
+  /* --- Parchment --- */
+  --parchment: #efe2c4;
+  --parchment-2: #e7d6ad;
+  --parchment-3: #e3d2a8;
+  --parchment-dim: #d8c79c;
+
+  /* --- Ink (text on parchment) --- */
+  --ink: #4a3a1e;
+  --ink-deep: #3a2c14;
+  --ink-soft: #6a5734;
+
+  /* --- Gold --- */
+  --gold: #c9a14a;
+  --gold-bright: #e6c878;
+  --gold-deep: #9c7a2e;
+  --gold-faint: rgba(201, 161, 74, 0.18);
+
+  /* --- Oxblood --- */
+  --oxblood: #6e1423;
+  --oxblood-deep: #5a0f1c;
+  --oxblood-bright: #8e2434;
+
+  --cream: #fbf6e9;
+
+  /* --- Typography --- */
+  --display: "Cinzel", "Trajan Pro", "Times New Roman", serif;
+  --body: "Cormorant Garamond", "EB Garamond", "Georgia", serif;
+
+  /* --- Layout --- */
+  --radius: 6px;
+  --radius-lg: 12px;
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-med: 0 8px 26px rgba(0, 0, 0, 0.5);
+  --shadow-deep: 0 16px 44px rgba(0, 0, 0, 0.6);
+
+  /* Layered gold "ornate frame" border stack */
+  --gold-frame:
+    0 0 0 1px var(--gold-deep),
+    0 0 0 4px var(--parchment-3),
+    0 0 0 6px var(--gold),
+    0 0 0 7px var(--gold-bright),
+    0 0 0 10px var(--gold-deep),
+    var(--shadow-med);
+
+  /* faint parchment paper texture */
+  --paper-texture:
+    radial-gradient(circle at 20% 30%, rgba(120, 90, 40, 0.06) 0, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(120, 90, 40, 0.05) 0, transparent 45%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 26px,
+      rgba(120, 90, 40, 0.05) 27px
+    );
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--body);
+  color: var(--cream);
+  background-color: var(--backdrop);
+  /* Cinematic courtroom interior photo (Painted Hall, Greenwich — Wikimedia
+     Commons) under a warm dark overlay so panels pop and read golden. */
+  background-image:
+    linear-gradient(rgba(20, 12, 6, 0.72), rgba(10, 6, 3, 0.88)),
+    radial-gradient(ellipse at 50% 18%, rgba(201, 161, 74, 0.18), transparent 60%),
+    url("https://upload.wikimedia.org/wikipedia/commons/2/22/Painted_Hall%2C_Greenwich_-_Interior_-_geograph.org.uk_-_3192573.jpg");
+  background-size: cover, cover, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Warm golden tint multiply layer + dark vignette over the whole scene */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(0deg, rgba(60, 35, 10, 0.22), rgba(60, 35, 10, 0.1));
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 700;
+  margin: 0 0 0.4em;
+  color: var(--gold-bright);
+  letter-spacing: 0.06em;
+}
+
+p { margin: 0 0 0.6em; }
+
+a { color: var(--gold-bright); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button { font-family: var(--body); cursor: pointer; }
+
+.serif { font-family: var(--display); }
+
+::selection {
+  background: rgba(201, 161, 74, 0.4);
+  color: var(--cream);
+}
+
+/* Decorative gold flourish rule */
+.entry-flourish,
+.bench-flourish {
+  height: 14px;
+  margin: 0.35rem auto 0.6rem;
+  width: min(280px, 70%);
+  background:
+    linear-gradient(90deg, transparent, var(--gold) 45%, var(--gold-bright) 50%, var(--gold) 55%, transparent),
+    radial-gradient(circle at 50% 50%, var(--gold-bright) 2px, transparent 3px);
+  background-repeat: no-repeat;
+  background-position: center top, center center;
+  opacity: 0.85;
+}
+
+/* Shared scales emblem */
+.scales-icon {
+  width: 1em;
+  height: 1em;
+  color: var(--gold);
+  display: inline-block;
+}
+
+/* ============================================================
+   Form controls
+   ============================================================ */
+
+label {
+  display: block;
+  font-family: var(--display);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: 0.3rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  font-family: var(--body);
+  font-size: 1.05rem;
+  color: var(--ink-deep);
+  background: var(--cream);
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.7rem;
+  box-shadow: inset 0 1px 4px rgba(80, 55, 20, 0.18);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: inset 0 1px 4px rgba(80, 55, 20, 0.18),
+    0 0 0 3px rgba(201, 161, 74, 0.35);
+}
+
+textarea { resize: vertical; min-height: 5rem; line-height: 1.5; }
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background: var(--parchment-dim);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+/* --- Buttons --- */
+.btn,
+button.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.3rem;
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius);
+  color: var(--cream);
+  background: linear-gradient(180deg, rgba(60, 40, 18, 0.9), rgba(30, 20, 9, 0.95));
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(230, 200, 120, 0.18);
+  transition: transform 0.1s, filter 0.15s, box-shadow 0.15s;
+}
+.btn:hover { filter: brightness(1.12); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled,
+button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.5) brightness(0.7);
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+/* Gold primary / begin button */
+.btn-primary,
+.btn-begin {
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold) 55%, var(--gold-deep));
+  color: #2a1d07;
+  border-color: var(--gold-deep);
+  text-shadow: 0 1px 0 rgba(255, 250, 230, 0.4);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 250, 230, 0.5),
+    0 0 14px rgba(201, 161, 74, 0.35);
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, rgba(90, 60, 26, 0.95), rgba(50, 32, 12, 0.95));
+  color: var(--gold-bright);
+  border-color: var(--gold-deep);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--gold-deep);
+  color: var(--gold-bright);
+  box-shadow: none;
+}
+.btn-ghost:hover { background: rgba(201, 161, 74, 0.12); filter: none; }
+
+/* Objection — oxblood call to action */
+.btn-objection {
+  background: linear-gradient(180deg, var(--oxblood-bright), var(--oxblood));
+  border-color: var(--oxblood-deep);
+  color: var(--cream);
+}
+.btn-objection.armed {
+  animation: armedPulse 1.8s ease-in-out infinite;
+}
+@keyframes armedPulse {
+  0%, 100% { box-shadow: var(--shadow-soft), 0 0 0 rgba(142, 36, 52, 0); }
+  50% { box-shadow: var(--shadow-med), 0 0 16px rgba(142, 36, 52, 0.6); }
+}
+
+/* Standalone objection bar — available to any participant while counsel speaks.
+   The user types the grounds of the objection, then submits. */
+.objection-bar {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin: 0.6rem 0 0.2rem;
+}
+.objection-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 520px;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius);
+  background: var(--cream);
+  color: var(--ink-deep);
+  font-family: var(--body);
+  font-size: 1rem;
+}
+.objection-input:focus {
+  outline: none;
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 1px var(--gold-bright);
+}
+.objection-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.objection-bar .btn-objection {
+  flex: 0 0 auto;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  padding: 0.65rem 1.8rem;
+}
+.objection-bar .btn-objection:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ============================================================
+   Verdict banner — prominent gold celebratory result card
+   ============================================================ */
+.verdict-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 760px;
+  margin: 0.6rem auto 1rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: var(--radius);
+  color: #2a1d07;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold) 55%, var(--gold-deep));
+  border: 1px solid var(--gold-deep);
+  box-shadow:
+    var(--shadow-med),
+    inset 0 1px 0 rgba(255, 250, 230, 0.6),
+    0 0 28px rgba(201, 161, 74, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 250, 230, 0.45);
+  animation: verdictRise 0.5s ease-out;
+}
+@keyframes verdictRise {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.verdict-banner-scales { font-size: 2.2rem; color: #4a3208; flex: 0 0 auto; }
+.verdict-banner-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+}
+.verdict-banner-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #4a3208;
+}
+.verdict-banner-headline {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.verdict-banner-scores {
+  font-family: var(--display);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: #3a2806;
+}
+.verdict-banner-scores strong { color: #2a1d07; }
+.verdict-banner-dot { margin: 0 0.55rem; opacity: 0.7; }
+
+/* ============================================================
+   VICTORY overlay — celebratory winner moment with pure-CSS
+   confetti + firework bursts. Dismissable; falls back to the
+   compact .verdict-banner once dismissed.
+   ============================================================ */
+.victory-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 35%, rgba(20, 12, 4, 0.78), rgba(10, 6, 2, 0.92));
+  animation: victoryFade 0.4s ease-out;
+}
+@keyframes victoryFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.victory-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  max-width: 560px;
+  width: 100%;
+  padding: 2.2rem 2.4rem 2rem;
+  border-radius: var(--radius-lg);
+  color: #2a1d07;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold) 55%, var(--gold-deep));
+  box-shadow: var(--gold-frame), 0 0 60px rgba(201, 161, 74, 0.55);
+  text-shadow: 0 1px 0 rgba(255, 250, 230, 0.45);
+  animation: victoryPop 0.55s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+@keyframes victoryPop {
+  0% { opacity: 0; transform: translateY(18px) scale(0.85); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.victory-scales { font-size: 2.6rem; color: #4a3208; }
+.victory-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #4a3208;
+}
+.victory-headline {
+  margin: 0;
+  font-size: clamp(1.8rem, 6vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #2a1d07;
+  animation: victoryGlow 1.8s ease-in-out infinite;
+}
+@keyframes victoryGlow {
+  0%, 100% { text-shadow: 0 1px 0 rgba(255, 250, 230, 0.5), 0 0 10px rgba(255, 240, 200, 0.35); }
+  50% { text-shadow: 0 1px 0 rgba(255, 250, 230, 0.6), 0 0 26px rgba(255, 240, 200, 0.85); }
+}
+.victory-subline {
+  margin: 0;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  letter-spacing: 0.04em;
+  color: #3a2806;
+}
+.victory-continue { margin-top: 0.7rem; }
+.victory-dismiss {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  color: #4a3208;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+.victory-dismiss:hover { opacity: 1; }
+
+/* --- Confetti + fireworks layer --- */
+.victory-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti-piece {
+  position: absolute;
+  top: -6%;
+  border-radius: 2px;
+  opacity: 0.95;
+  animation-name: confettiFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.confetti-piece.round { border-radius: 50%; }
+@keyframes confettiFall {
+  0% { transform: translate(0, -10vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(var(--drift, 0), 110vh) rotate(720deg); opacity: 0.9; }
+}
+
+.firework {
+  position: absolute;
+  width: 0;
+  height: 0;
+  animation: fireworkRise 1.7s ease-out infinite;
+}
+@keyframes fireworkRise {
+  /* Subtle scale pulse on the whole burst so each detonation feels distinct. */
+  0% { transform: scale(0.2); }
+  14% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+.firework-spark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  /* The inline `transform: rotate(Ndeg)` sets each spark's outward direction;
+     `transform-origin` keeps that rotation pinned at the burst centre, and the
+     ::after pseudo travels outward along the rotated axis. */
+  transform-origin: 0 0;
+}
+.firework-spark::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0;
+  animation: fireworkTravel 1.7s ease-out infinite;
+  animation-delay: inherit;
+}
+@keyframes fireworkTravel {
+  0% { opacity: 0; transform: translateX(0) scale(1); }
+  12% { opacity: 1; }
+  70% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateX(72px) scale(0.3); }
+}
+
+/* ============================================================
+   Disclaimer banner — subtle gold-on-dark strip
+   ============================================================ */
+
+.disclaimer-banner {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  padding: 0.45rem 1rem;
+  background: linear-gradient(180deg, rgba(20, 12, 6, 0.96), rgba(12, 7, 3, 0.92));
+  border-bottom: 1px solid var(--gold-deep);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================
+   Entry screens (Home / Create / Join)
+   ============================================================ */
+
+.entry-scene {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.entry-center {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.entry-card,
+.panel.form-panel {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  background:
+    var(--paper-texture),
+    linear-gradient(165deg, var(--parchment) 0%, var(--parchment-3) 100%);
+  color: var(--ink-deep);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--gold-frame);
+  padding: 2.25rem 2rem 2rem;
+}
+
+.entry-emblem,
+.form-emblem {
+  font-size: 2.6rem;
+  color: var(--gold-deep);
+  filter: drop-shadow(0 2px 3px rgba(80, 55, 20, 0.3));
+}
+
+.entry-title {
+  font-size: clamp(1.5rem, 4vw, 2.3rem);
+  color: var(--gold-deep);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0.4rem 0 0.2rem;
+  text-shadow: 0 1px 0 rgba(255, 250, 230, 0.4);
+}
+
+.entry-tagline {
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.6rem;
+}
+
+.entry-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* Form panels (Create / Join / Pick role) */
+.panel.form-panel { text-align: left; }
+
+.form-panel-head { text-align: center; margin-bottom: 1.2rem; }
+.form-panel-head h2 {
+  color: var(--gold-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1.5rem;
+  margin: 0.25rem 0 0;
+}
+
+.case-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+.case-form > label { margin-bottom: 1rem; }
+
+/* A side column that pairs its side-label with the optional client it represents. */
+.case-form .side-group { display: flex; flex-direction: column; }
+.case-form .side-group label + label { margin-top: 0.6rem; }
+
+.form-error {
+  color: var(--oxblood);
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0.75rem 0 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.code-input {
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  font-family: var(--display);
+  text-align: center;
+}
+
+.join-case-title {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Role picker */
+.role-picker {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.9rem 1.1rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, var(--cream), var(--parchment-2));
+  color: var(--ink-deep);
+  border: 1px solid var(--gold-deep);
+  box-shadow: var(--shadow-soft);
+}
+.role-btn:hover:not(:disabled) { filter: brightness(1.03); }
+.role-btn .role-side {
+  font-family: var(--display);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.role-btn .role-label {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  color: var(--ink-deep);
+}
+.role-btn .role-taken {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--oxblood);
+}
+.role-btn:disabled { filter: grayscale(0.4) brightness(0.9); opacity: 0.6; }
+
+/* ============================================================
+   Courtroom scene — gilded layout
+   ============================================================ */
+
+.courtroom-scene {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  text-align: center;
+  margin: 4rem auto;
+  font-size: 1.3rem;
+  color: var(--gold-bright);
+  font-style: italic;
+}
+
+.court-grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.4fr) minmax(220px, 1fr);
+  grid-template-areas:
+    "bench   bench    case"
+    "lawyerA center   case"
+    "lawyerB lawyerB  case"
+    "record  record   case"
+    "gallery gallery  gallery";
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 1.4rem 1.4rem 0.5rem;
+  align-items: start;
+}
+
+.seat-left { grid-area: lawyerA; }
+.seat-right { grid-area: lawyerB; }
+.seat-center { grid-area: center; align-self: center; }
+.case-details { grid-area: case; }
+.record-col { grid-area: record; }
+.gallery-col { grid-area: gallery; }
+
+/* ============================================================
+   Bench / header (title, emblem, judge medallion, status panel)
+   ============================================================ */
+
+.bench {
+  grid-area: bench;
+  text-align: center;
+  position: relative;
+  padding: 0.5rem 0 0.5rem;
+}
+
+.bench-header { display: flex; flex-direction: column; align-items: center; }
+
+.bench-emblem-icon {
+  font-size: 2rem;
+  color: var(--gold-bright);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+}
+
+.bench-title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 3.4vw, 2.4rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin: 0.25rem 0 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 0 18px rgba(201, 161, 74, 0.25);
+}
+
+/* Judge medallion / seal under the header */
+.bench-medallion {
+  display: flex;
+  justify-content: center;
+  margin: 0.3rem 0 0.5rem;
+}
+.bench-judge-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  color: var(--gold-bright);
+  background:
+    radial-gradient(circle at 50% 35%, rgba(40, 26, 10, 0.95), rgba(14, 9, 4, 0.98));
+  border: 2px solid var(--gold);
+  box-shadow:
+    0 0 0 5px rgba(20, 12, 6, 0.8),
+    0 0 0 7px var(--gold-deep),
+    0 0 26px rgba(201, 161, 74, 0.4),
+    inset 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.bench-seal-scales { font-size: 2.6rem; }
+
+/* Dark translucent status panel — where judge text renders */
+.bench-status {
+  max-width: 640px;
+  margin: 0 auto;
+  max-height: 9rem;
+  overflow-y: auto;
+  background: rgba(14, 9, 4, 0.78);
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius);
+  box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201,161,74,0.15);
+  padding: 0.85rem 1.25rem;
+}
+
+.judge-statement {
+  font-family: var(--body);
+  font-size: 1.18rem;
+  line-height: 1.6;
+  color: var(--cream);
+  margin: 0;
+  white-space: pre-wrap;
+}
+.judge-statement.judge-idle { color: var(--gold-bright); font-style: italic; }
+
+.judge-statement.streaming::after {
+  content: "\258C";
+  color: var(--gold-bright);
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.judge-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--gold-bright);
+  margin: 0;
+}
+.judge-thinking .dots { display: inline-flex; gap: 3px; }
+.judge-thinking .dots i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-bright); display: inline-block;
+  animation: think 1.2s ease-in-out infinite;
+}
+.judge-thinking .dots i:nth-child(2) { animation-delay: 0.2s; }
+.judge-thinking .dots i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes think {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ============================================================
+   Lawyer cards (parchment in ornate gilded frame)
+   ============================================================ */
+
+.lawyer-card { position: relative; }
+
+.lawyer-frame {
+  border-radius: var(--radius-lg);
+  padding: 5px;
+  background:
+    linear-gradient(135deg, var(--gold-bright), var(--gold) 35%, var(--gold-deep) 70%, var(--gold-bright));
+  box-shadow:
+    0 0 0 1px var(--gold-deep),
+    var(--shadow-med);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.lawyer-parchment {
+  position: relative;
+  text-align: center;
+  padding: 1.1rem 1rem 0;
+  border-radius: 8px;
+  background:
+    var(--paper-texture),
+    linear-gradient(180deg, var(--parchment) 0%, var(--parchment-3) 100%);
+  box-shadow: inset 0 0 0 1px rgba(156, 122, 46, 0.4);
+  overflow: hidden;
+}
+
+.lawyer-side-label {
+  font-family: var(--display);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: 0.5rem;
+}
+
+/* "for {client}" — the named human a side represents, subtle gilded italic. */
+.lawyer-client {
+  font-size: 0.78rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--gold-deep);
+  opacity: 0.82;
+  margin-top: -0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.lawyer-avatar {
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 38% 32%, #f7eccd, var(--parchment-dim));
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 2px var(--gold-deep), inset 0 2px 5px rgba(80, 55, 20, 0.25);
+  color: var(--gold-deep);
+}
+.lawyer-initial { font-size: 1.9rem; font-weight: 700; color: var(--ink-deep); }
+.lawyer-silhouette { width: 38px; height: 38px; color: var(--gold-deep); opacity: 0.85; }
+
+.lawyer-name {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--ink-deep);
+  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.lawyer-empty { font-style: italic; color: var(--ink-soft); font-family: var(--body); }
+.lawyer-you {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #2a1d07;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold-deep));
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+
+.lawyer-status {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-bottom: 0.85rem;
+}
+.lawyer-status.active { color: var(--oxblood); font-weight: 600; font-style: normal; }
+
+.lawyer-band {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: linear-gradient(180deg, var(--oxblood), var(--oxblood-deep));
+  margin: 0 -1rem;
+  padding: 0.45rem;
+  box-shadow: inset 0 1px 0 rgba(230, 200, 120, 0.25);
+}
+
+/* Active turn highlight */
+.lawyer-card.active .lawyer-frame {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px var(--gold-bright),
+    0 0 26px rgba(230, 200, 120, 0.6),
+    var(--shadow-deep);
+  animation: cardPulse 2.4s ease-in-out infinite;
+}
+@keyframes cardPulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--gold-bright), 0 0 20px rgba(230, 200, 120, 0.4), var(--shadow-deep); }
+  50% { box-shadow: 0 0 0 1px var(--gold-bright), 0 0 34px rgba(230, 200, 120, 0.7), var(--shadow-deep); }
+}
+
+/* ============================================================
+   Center status pill
+   ============================================================ */
+
+.turn-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+.phase-pill {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: radial-gradient(circle at 50% 30%, rgba(40, 26, 10, 0.95), rgba(12, 7, 3, 0.98));
+  border: 2px solid var(--gold);
+  border-radius: 999px;
+  padding: 0.55rem 1.6rem;
+  box-shadow: 0 0 0 4px rgba(20, 12, 6, 0.7), 0 0 20px rgba(201, 161, 74, 0.4),
+    inset 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.turn-sub { display: flex; flex-direction: column; gap: 0.1rem; }
+.round-label { font-size: 0.85rem; color: var(--gold); letter-spacing: 0.06em; }
+.whose-turn {
+  font-family: var(--body);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--gold-bright);
+}
+
+/* ============================================================
+   Case Details panel (oxblood)
+   ============================================================ */
+
+.case-details {
+  background: linear-gradient(165deg, var(--oxblood) 0%, var(--oxblood-deep) 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.3rem;
+  color: #f3e6c8;
+  box-shadow:
+    0 0 0 1px var(--gold-deep),
+    0 0 0 4px rgba(20, 12, 6, 0.5),
+    var(--shadow-med);
+  border: 1px solid var(--gold);
+}
+.case-details-title {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  text-align: center;
+  border-bottom: 1px solid rgba(201, 161, 74, 0.4);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+.case-details-name {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  color: #fdf3da;
+  margin-bottom: 0.4rem;
+}
+.case-details-type { font-size: 1.02rem; color: #ecd7ae; }
+.case-details-type strong { color: var(--gold-bright); text-transform: capitalize; }
+.case-details-desc {
+  font-size: 1rem;
+  font-style: italic;
+  color: #e6cfa5;
+  line-height: 1.45;
+}
+.case-details-room {
+  font-size: 0.92rem;
+  letter-spacing: 0.1em;
+  color: #e6cfa5;
+}
+.case-details-room strong { color: var(--gold-bright); letter-spacing: 0.2em; }
+
+.btn-begin {
+  display: block;
+  width: 100%;
+  margin: 1rem 0 0.5rem;
+  font-size: 0.95rem;
+  padding: 0.8rem 1rem;
+}
+.case-details-wait {
+  font-style: italic;
+  color: var(--gold-bright);
+  text-align: center;
+  margin: 0.85rem 0 0;
+}
+.case-details-hint {
+  font-size: 0.85rem;
+  color: #e0bf94;
+  text-align: center;
+  margin: 0.3rem 0 0;
+}
+
+.case-details-subhead {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 1.2rem 0 0.5rem;
+  border-top: 1px solid rgba(201, 161, 74, 0.3);
+  padding-top: 0.8rem;
+}
+.notifications { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+.notification {
+  font-size: 0.95rem;
+  color: #f0ddb8;
+  padding: 0.4rem 0.7rem;
+  border-left: 3px solid var(--gold-deep);
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.notification.ok { border-left-color: #6fae6f; }
+.notification.gold { border-left-color: var(--gold-bright); color: var(--gold-bright); }
+.notification.wait { border-left-color: var(--gold); }
+
+/* ============================================================
+   Court Record (aged parchment)
+   ============================================================ */
+
+.transcript {
+  display: flex;
+  flex-direction: column;
+  max-height: 58vh;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--gold-frame);
+  overflow: hidden;
+  background:
+    var(--paper-texture),
+    linear-gradient(180deg, var(--parchment) 0%, var(--parchment-3) 100%);
+  color: var(--ink-deep);
+}
+
+.transcript-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(180deg, rgba(40, 26, 10, 0.96), rgba(20, 12, 6, 0.96));
+  border-bottom: 2px solid var(--gold-deep);
+}
+.transcript-emblem { font-size: 1.4rem; color: var(--gold-bright); }
+.transcript-title {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin: 0;
+}
+
+.transcript-body {
+  position: relative;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+}
+.transcript-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 55%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  color: var(--gold-deep);
+  opacity: 0.06;
+  pointer-events: none;
+}
+.transcript-body::-webkit-scrollbar { width: 10px; }
+.transcript-body::-webkit-scrollbar-track { background: var(--parchment-dim); }
+.transcript-body::-webkit-scrollbar-thumb {
+  background: var(--gold-deep);
+  border-radius: 999px;
+  border: 2px solid var(--parchment-dim);
+}
+
+.transcript-empty {
+  position: relative;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.transcript-entry {
+  position: relative;
+  margin-bottom: 0.85rem;
+  padding: 0.55rem 0.8rem 0.6rem 0.95rem;
+  border-radius: var(--radius);
+  border-left: 4px solid rgba(156, 122, 46, 0.5);
+  background: rgba(255, 252, 240, 0.5);
+}
+.entry-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+.entry-speaker {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.entry-ts { font-size: 0.72rem; color: var(--ink-soft); opacity: 0.65; }
+.entry-text {
+  font-family: var(--body);
+  font-size: 1.08rem;
+  line-height: 1.5;
+  color: var(--ink-deep);
+  white-space: pre-wrap;
+}
+
+/* judge — gold accent */
+.transcript-entry.judge {
+  border-left-color: var(--gold);
+  background: linear-gradient(90deg, var(--gold-faint), rgba(255, 252, 240, 0.5));
+}
+.transcript-entry.judge .entry-speaker { color: var(--gold-deep); }
+.transcript-entry.judge .entry-text { font-style: italic; }
+
+/* argument */
+.transcript-entry.argument { border-left-color: var(--ink-soft); }
+
+/* objection — oxblood */
+.transcript-entry.objection {
+  border-left-color: var(--oxblood);
+  background: linear-gradient(90deg, rgba(110, 20, 35, 0.14), rgba(255, 252, 240, 0.5));
+}
+.transcript-entry.objection .entry-speaker { color: var(--oxblood); }
+
+/* verdict — framed in gold */
+.transcript-entry.verdict {
+  border: 2px solid var(--gold);
+  border-left-width: 5px;
+  background: linear-gradient(180deg, rgba(201, 161, 74, 0.2), rgba(110, 20, 35, 0.08));
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+.transcript-entry.verdict .entry-speaker { color: var(--oxblood); }
+.transcript-entry.verdict .entry-speaker::before { content: "\2696\FE0F "; }
+.transcript-entry.verdict .entry-text { font-size: 1.12rem; }
+
+/* system notice — quiet, centered */
+.transcript-entry.system {
+  border-left-color: transparent;
+  background: transparent;
+  text-align: center;
+  padding: 0.25rem;
+}
+.transcript-entry.system .entry-meta { display: none; }
+.transcript-entry.system .entry-text {
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
+   Argument input
+   ============================================================ */
+
+.argument-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, rgba(40, 26, 10, 0.9), rgba(20, 12, 6, 0.94));
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-med);
+}
+.argument-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.argument-label {
+  font-family: var(--display);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+.argument-hint { font-size: 0.95rem; font-style: italic; color: var(--gold); }
+.argument-actions { display: flex; gap: 0.75rem; }
+.argument-actions .btn-primary { flex: 1 1 auto; }
+
+/* ============================================================
+   Gallery strip
+   ============================================================ */
+
+.gallery {
+  padding: 0.8rem 1.1rem 1rem;
+  background: linear-gradient(180deg, rgba(30, 20, 9, 0.82), rgba(14, 9, 4, 0.88));
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+.gallery-title {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  text-align: center;
+  margin-bottom: 0.7rem;
+}
+.gallery-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.85rem;
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+}
+.gallery-frame {
+  flex: 0 0 auto;
+  width: 84px;
+  margin: 0;
+  text-align: center;
+}
+.gallery-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 0.35rem;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #2a1d0e, #14100a);
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 1px var(--gold-deep), inset 0 2px 6px rgba(0, 0, 0, 0.6);
+  color: var(--gold-bright);
+}
+.gallery-initial { font-family: var(--display); font-size: 1.5rem; color: var(--gold-bright); }
+.gallery-exhibit-mark { font-family: var(--display); font-size: 1.5rem; color: var(--gold); opacity: 0.7; }
+.gallery-thumb.add {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--gold-deep);
+}
+.gallery-plus { font-size: 1.8rem; color: var(--gold-deep); line-height: 1; }
+.gallery-caption {
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gallery-frame.spectator .gallery-caption { color: var(--gold-bright); }
+
+/* ============================================================
+   Footer toolbar
+   ============================================================ */
+
+.court-toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 1.4rem;
+  background: linear-gradient(180deg, rgba(14, 9, 4, 0.94), rgba(8, 5, 2, 0.98));
+  border-top: 2px solid var(--gold-deep);
+  box-shadow: 0 -2px 14px rgba(0, 0, 0, 0.6);
+}
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.toolbar-scales { font-size: 1.3rem; color: var(--gold-bright); }
+.toolbar-actions { display: flex; align-items: center; gap: 1rem; }
+.toolbar-room {
+  font-family: var(--display);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.toolbar-btn {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: transparent;
+  border: 1px solid var(--gold-deep);
+  border-radius: var(--radius);
+  padding: 0.45rem 1.1rem;
+  transition: background 0.15s, filter 0.15s;
+}
+.toolbar-btn:hover { background: rgba(201, 161, 74, 0.14); }
+
+/* ============================================================
+   Toasts
+   ============================================================ */
+
+.toast-stack {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 360px;
+}
+.toast {
+  font-family: var(--body);
+  font-size: 1.02rem;
+  color: var(--cream);
+  background: linear-gradient(180deg, var(--oxblood-bright), var(--oxblood));
+  border: 1px solid var(--oxblood-deep);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 0.65rem 1rem;
+  box-shadow: var(--shadow-med);
+  animation: toastIn 0.25s ease-out;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* ============================================================
+   Case modes — CreateCase selector + AI Counsel treatments
+   ============================================================ */
+
+/* Mode selector (CreateCase) */
+.mode-fieldset {
+  border: 1px solid var(--gold-deep);
+  border-radius: 8px;
+  padding: 0.9rem 1rem 1rem;
+  margin: 0 0 1rem;
+  background: linear-gradient(180deg, var(--cream), var(--parchment-2));
+}
+.mode-legend {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  padding: 0 0.4rem;
+}
+.mode-grid { display: grid; gap: 0.6rem; }
+.mode-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--gold-deep);
+  border-radius: 7px;
+  background: var(--cream);
+  color: var(--ink-deep);
+  cursor: pointer;
+  transition: filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.mode-card:hover { filter: brightness(1.02); }
+.mode-card.selected {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 1px var(--gold-bright), 0 0 14px rgba(230, 200, 120, 0.45);
+  background: linear-gradient(180deg, var(--cream), var(--parchment-3));
+}
+.mode-card-label { font-family: var(--display); font-size: 1rem; color: var(--ink-deep); }
+.mode-card-hint { font-size: 0.82rem; color: var(--ink-soft); }
+
+.mode-side-choice {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--gold-deep);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.mode-side-prompt {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.mode-side-buttons { display: flex; gap: 0.6rem; }
+.mode-side-btn {
+  flex: 1;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--gold-deep);
+  border-radius: 6px;
+  background: var(--cream);
+  color: var(--ink-deep);
+  font-family: var(--display);
+  cursor: pointer;
+  transition: filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.mode-side-btn.selected {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 1px var(--gold-bright);
+  background: linear-gradient(180deg, var(--cream), var(--parchment-3));
+}
+.mode-side-note { font-size: 0.78rem; font-style: italic; color: var(--ink-soft); }
+
+/* Role picker — AI seats (JoinRoom) */
+.role-btn.role-ai {
+  background: linear-gradient(180deg, #efe6cd, var(--parchment-dim));
+  border-style: dashed;
+  cursor: not-allowed;
+}
+.role-btn .role-ai-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-deep);
+  font-family: var(--display);
+}
+.role-ava-note {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0.5rem 0 0;
+}
+
+/* AI Counsel lawyer card (Podium) */
+.lawyer-card.ai .lawyer-avatar {
+  background: radial-gradient(circle at 38% 32%, #f3e8c8, var(--parchment-dim));
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 0 2px var(--gold-bright), inset 0 2px 5px rgba(80, 55, 20, 0.25);
+}
+.lawyer-ai-glyph { width: 38px; height: 38px; color: var(--gold-deep); }
+.lawyer-ai-name { font-family: var(--display); color: var(--ink-deep); }
+.lawyer-ai-badge {
+  font-family: var(--body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2a1d07;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold-deep));
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+}
+.lawyer-composing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--oxblood);
+  font-style: italic;
+}
+.lawyer-composing .dots { display: inline-flex; gap: 3px; }
+.lawyer-composing .dots i {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--oxblood); display: inline-block;
+  animation: think 1.2s ease-in-out infinite;
+}
+.lawyer-composing .dots i:nth-child(2) { animation-delay: 0.2s; }
+.lawyer-composing .dots i:nth-child(3) { animation-delay: 0.4s; }
+
+@media (max-width: 960px) {
+  .court-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "bench   bench"
+      "lawyerA lawyerB"
+      "center  center"
+      "case    case"
+      "record  record"
+      "gallery gallery";
+  }
+  .seat-center { align-self: stretch; }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .court-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "bench"
+      "lawyerA"
+      "center"
+      "lawyerB"
+      "case"
+      "record"
+      "gallery";
+    padding: 1rem 0.85rem 0.5rem;
+  }
+  .case-form .form-row { grid-template-columns: 1fr; }
+  .court-toolbar { flex-direction: column; gap: 0.5rem; align-items: stretch; text-align: center; }
+  .toolbar-brand, .toolbar-actions { justify-content: center; }
+  .entry-card, .panel.form-panel { padding: 1.75rem 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lawyer-card.active .lawyer-frame,
+  .btn-objection.armed,
+  .judge-thinking .dots i,
+  .lawyer-composing .dots i,
+  .judge-statement.streaming::after,
+  .victory-overlay,
+  .victory-card,
+  .victory-headline,
+  .firework,
+  .toast {
+    animation: none;
+  }
+  /* Hide the moving confetti/firework layer entirely; the static victory card
+     remains fully readable. */
+  .victory-fx { display: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* ── Server settings panel (home screen) ───────────────────────────────── */
+.server-settings {
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(201, 161, 74, 0.35);
+  text-align: left;
+}
+.server-settings-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-deep, #9c7a2e);
+  padding: 0.2rem 0;
+}
+.server-settings-gear { margin-left: auto; font-size: 1rem; opacity: 0.85; }
+.conn-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+  box-shadow: 0 0 6px currentColor;
+}
+.conn-dot.on { background: #3f8a4c; color: #3f8a4c; }
+.conn-dot.off { background: #8e2434; color: #8e2434; }
+.server-settings-body {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.server-settings-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-deep, #9c7a2e);
+}
+.server-settings-body input {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--gold-deep, #9c7a2e);
+  border-radius: 6px;
+  background: var(--cream, #f6efda);
+  color: var(--ink-deep, #2a1d07);
+  font-size: 0.95rem;
+}
+.server-settings-hint {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+.server-settings-hint code {
+  font-size: 0.7rem;
+  background: rgba(201, 161, 74, 0.18);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+}
+.server-settings-actions { display: flex; justify-content: flex-end; }

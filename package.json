@@ -1,0 +1,19 @@
+{
+  "name": "courtroom",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Courtroom — a multiplayer mock-trial simulator with an AI judge. EDUCATIONAL SIMULATION ONLY.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently -n server,client -c green,cyan \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

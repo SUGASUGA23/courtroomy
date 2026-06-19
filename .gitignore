@@ -1,0 +1,35 @@
+# ── Secrets — NEVER commit ────────────────────────────────────────────────
+# Holds the live LLM API key. Use server/.env.example as the template.
+.env
+*.env
+!*.env.example
+
+# ── Dependencies ──────────────────────────────────────────────────────────
+node_modules/
+**/node_modules/
+
+# ── Build output ──────────────────────────────────────────────────────────
+dist/
+**/dist/
+build/
+
+# ── Capacitor / Android build artifacts ───────────────────────────────────
+client/android/.gradle/
+client/android/build/
+client/android/app/build/
+client/android/capacitor-cordova-android-plugins/
+client/android/local.properties
+client/android/app/src/main/assets/public/
+client/android/app/src/main/assets/capacitor.config.json
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# ── Logs / misc ───────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
